@@ -45,10 +45,14 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
     private static final long serialVersionUID = -3342374271064293224L;
     private static ConcurrentHashSet<String> existingServices = new ConcurrentHashSet<String>();
-    // 具体到方法的配置
+    /**
+     * 具体到方法的配置
+     */
     protected List<MethodConfig> methods;
 
-    // 接口实现类引用
+    /**
+     * 接口实现类引用
+     */
     private T ref;
 
     // service 对应的exporters，用于管理service服务的生命周期
@@ -111,14 +115,17 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             LoggerUtil.warn(String.format("%s has already been expoted, so ignore the export request!", interfaceClass.getName()));
             return;
         }
-
+        /**
+         * 校验接口和方法
+         */
         checkInterfaceAndMethods(interfaceClass, methods);
-
+        /**
+         * 获取注册中心地址列表
+         */
         List<URL> registryUrls = loadRegistryUrls();
         if (registryUrls == null || registryUrls.size() == 0) {
             throw new IllegalStateException("Should set registry config for service:" + interfaceClass.getName());
         }
-
         Map<String, Integer> protocolPorts = getProtocolAndPort();
         for (ProtocolConfig protocolConfig : protocols) {
             Integer port = protocolPorts.get(protocolConfig.getId());
@@ -160,11 +167,9 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             hostAddress = getLocalHostAddress(registryURLs);
         }
 
-        Map<String, String> map = new HashMap<String, String>();
-
+        Map<String, String> map = new HashMap<>();
         map.put(URLParamType.nodeType.getName(), MotanConstants.NODE_TYPE_SERVICE);
         map.put(URLParamType.refreshTimestamp.getName(), String.valueOf(System.currentTimeMillis()));
-
         collectConfigParams(map, protocolConfig, basicService, extConfig, this);
         collectMethodConfigParams(map, this.getMethods());
 

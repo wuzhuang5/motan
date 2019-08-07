@@ -24,37 +24,37 @@ import com.weibo.motan.demo.service.MotanDemoService;
 public class MotanApiClientDemo {
 
     public static void main(String[] args) {
-        RefererConfig<MotanDemoService> motanDemoServiceReferer = new RefererConfig<MotanDemoService>();
+        RefererConfig<MotanDemoService> refererConfig = new RefererConfig<MotanDemoService>();
 
         // 设置接口及实现类
-        motanDemoServiceReferer.setInterface(MotanDemoService.class);
+        refererConfig.setInterface(MotanDemoService.class);
 
         // 配置服务的group以及版本号
-        motanDemoServiceReferer.setGroup("motan-demo-rpc");
-        motanDemoServiceReferer.setVersion("1.0");
-        motanDemoServiceReferer.setRequestTimeout(1000);
+        refererConfig.setGroup("motan-demo-rpc");
+        refererConfig.setVersion("1.0");
+        refererConfig.setRequestTimeout(1000);
 
         // 配置注册中心直连调用
         RegistryConfig registry = new RegistryConfig();
-
-        //use direct registry
-        registry.setRegProtocol("direct");
-        registry.setAddress("127.0.0.1:8002");
+//
+//        //use direct registry
+//        registry.setRegProtocol("direct");
+//        registry.setAddress("127.0.0.1:8002");
 
         // use ZooKeeper registry
-//        registry.setRegProtocol("zookeeper");
-//        registry.setAddress("127.0.0.1:2181");
-        motanDemoServiceReferer.setRegistry(registry);
+        registry.setRegProtocol("zookeeper");
+        registry.setAddress("127.0.0.1:2181");
+        refererConfig.setRegistry(registry);
 
         // 配置RPC协议
         ProtocolConfig protocol = new ProtocolConfig();
         protocol.setId("motan");
         protocol.setName("motan");
-        motanDemoServiceReferer.setProtocol(protocol);
+        refererConfig.setProtocol(protocol);
         // motanDemoServiceReferer.setDirectUrl("localhost:8002");  // 注册中心直连调用需添加此配置
 
         // 使用服务
-        MotanDemoService service = motanDemoServiceReferer.getRef();
+        MotanDemoService service = refererConfig.getRef();
         System.out.println(service.hello("motan"));
 
         System.exit(0);

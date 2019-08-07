@@ -371,7 +371,7 @@ public class AbstractInterfaceConfig extends AbstractConfig {
     }
 
     protected List<URL> loadRegistryUrls() {
-        List<URL> registryList = new ArrayList<URL>();
+        List<URL> registryList = new ArrayList<>();
         if (registries != null && !registries.isEmpty()) {
             for (RegistryConfig config : registries) {
                 String address = config.getAddress();

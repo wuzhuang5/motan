@@ -35,16 +35,10 @@ public class MotanApiExportDemo {
         // 配置服务的group以及版本号
         motanDemoService.setGroup("motan-demo-rpc");
         motanDemoService.setVersion("1.0");
-
-        // 配置注册中心直连调用
+        // 配置注册中心
         RegistryConfig registry = new RegistryConfig();
-
-        //use local registry
-        registry.setRegProtocol("local");
-
-        // use ZooKeeper registry
-//        registry.setRegProtocol("zookeeper");
-//        registry.setAddress("127.0.0.1:2181");
+        registry.setRegProtocol("zookeeper");
+        registry.setAddress("127.0.0.1:2181");
 
         // registry.setCheck("false"); //是否检查是否注册成功
         motanDemoService.setRegistry(registry);
